@@ -37,7 +37,7 @@ WHERE purchase_amount = 0 AND TO_CHAR(date_purchased, 'MM-YYYY') = '10-2023'
 GROUP BY month;
 --Check if the month have a lot of 0 values
 --This month have no record with empty purchase amount
---There are only 5 records in this month. This suggests that either there are no other sales made in this month or there are more records that have not been collected in ihis month
+--There are only 5 records in this month. This suggests that either there are no other sales made in this month or there are more records that have not been collected in this month
 
 --Question 4: What is the top 10 best rated items? 
 
@@ -58,15 +58,15 @@ LIMIT 10;
 -- Wallet
 -- Jeans
 
---Question 5: Which item make the most revenue? Which item make the most sales
+--Question 5: Which item make the most revenue? Which item make the most sales?
 
 SELECT item_purchased, SUM(purchase_amount) AS total_revenue FROM fashion_sales
 GROUP BY item_purchased
 ORDER BY total_revenue DESC
 LIMIT 10;
 
---Based on customer's reviews, 'Sun Hat' have the best average rating of 3.14 but it did not make the top 10 items with most sales.
---Instead, it is 'Tunic' at 17275$, 1.32 times more than the next most revenue made item 'Jeans'
+--Based on customer's reviews, 'Sun Hat' have the best average rating of 3.14 but it did not make the top 10 items with most revenue.
+
 
 SELECT item_purchased, COUNT(*) AS total_sales FROM fashion_sales
 GROUP BY item_purchased
