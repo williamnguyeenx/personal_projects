@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if form.errors %}
+
+<div class="alert alert-warning alert-dismissable fade show" role="alert">
+    Error with form
+</div>
+{% endif %}
+
+<!-- <div class="shadow container bg-light form-group p-4 mt-5 mb-5" style="color:black">
+    <div style="color:black; font-size:24px"> REGISTER </div>
+    <br>
+    <form action="{% url 'register_user' %}" method ="POST" >
+        {% csrf_token %}
+        {{ form.as_div }}
+        <br>
+        <br>
+        <div class="form-group">
+            <input type="submit" class="form-control btn btn-primary rounded submit px-3" style="background-color: #ab201c;">
+        </div>
+        <p class="text-center">Already a member? <a href="login_user">Sign In</a></p>
+    </form> 
+</div> -->
+
+<div class="form-bg p-5 mb-4">
+    <div class="container" style="width: 1050px">
+        <div class="form-container row">
+            <div class="right-content">
+                <h3 class="form-title">Register</h3>
+                <form action="{% url 'register_user' %}" class="form-horizontal" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_div }}
+                    <br><br>
+                    <button type="submit" class="btn signin">Register</button>
+                </form>
+                <span class="signup-link">Already have an account? Sign in <a href="login_user">here</a></span>
+            </div>
+            <div class="left-content">
+                <h3 class="title">StoriesWithinUs</h3>
+                <h4 class="sub-title"></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

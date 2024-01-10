@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissable fade show" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div class="container bg-light form-group p-4 mt-5 mb-5" style="border-radius:25px; border-style:ridge">
+    <div style="color:black; font-size:24px"> EDIT PROFILE </div>
+    <br>
+    <form action="" method ="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        {{ img_form.as_p }}
+        <br>
+        <button type="submit" class="form-control btn btn-primary rounded submit px-3" style="background-color: #89ba16; border-color: #89ba16; width: 200px">Submit</button>
+    </form> 
+    <br>
+    <hr>
+
+    <a href="{% url 'profile' request.user.id %}" type="button" class="btn btn-secondary rounded submit px-3" style="background-color: #89ba16; border-color: #89ba16">Back to profile</a>
+    <a href="{% url 'change-password' %}" type="button" class="btn btn-secondary rounded submit px-3" style="background-color: #89ba16; border-color: #89ba16">Change Password</a>
+</div>
+
+{% endblock %}
+
+

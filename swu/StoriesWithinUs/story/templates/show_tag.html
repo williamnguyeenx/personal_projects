@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+        
+<div class="container p-4 mt-5 mb-1" style="box-shadow: 0 0 10px #ccc;"> 
+    <h2 class="head"> {{ tag.name }} </h2>
+    description here 
+    <p>total of something found</p>
+</div>
+
+<div class="container my-4">
+    {% for story in stories %}
+    <a href="{% url 'show-story' story.id %}"><div class="read-intro mb-2" style="box-shadow: 0 0 10px #ccc;">
+        <div class="row">
+            <div class="cover col-* d-flex justify-content-center align-items-center">
+                {% if story.story_image %}
+                <img class="shadow" src="{{ story.story_image.url }}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                {% else %}
+                <img class="shadow" src="{% static 'img/jiro.png' %}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                {% endif %}
+            </div>
+            <div class="info col">
+                <h2 class="head"> {{ story.name }} </h2>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Genre:</th>
+                            <td>{{ story.tag }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Artist:</th>
+                            <td> {{ story.author }} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Update:</th>
+                            <td> {{ story.created_at }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Likes:</th>
+                            <td> {{ story.total_likes }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text_hidden">{{ story.description }}</p>
+            </div>
+        </div>
+    </div></a> 
+    {% endfor %}
+</div>
+<br>
+
+{% endblock %}
+

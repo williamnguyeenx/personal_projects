@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br><br><br>
+<!-- start display content -->
+
+<ul class="work navigation actions container d-flex justify-content-end" role="menu">
+    <div class="dropdown">
+        <button style="margin:3px" class="dropdown-toggle btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Chapters
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% for info in chapters %}
+            <a class="dropdown-item" href="{% url 'show-chapter' info.id %}"> {{ info.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a class="comments btn btn-secondary" style="margin:3px"  id="show_comments_link_top" href="#feedback">Comments</a>
+</ul>
+
+<div id="workskin" class="container">
+    <center>
+    <div class="preface group">
+      <h2 class="title heading"><a href="{% url 'show-story' story.id %}"> {{ story.name }} </a></h2>
+      <h3 class="byline heading">
+        <a rel="author" href="{% url 'profile' story.author.id %}"> {{ story.author }} </a>
+      </h3>
+    </div>
+
+    <hr style="background-color: white;">
+
+    <div id="chapters">
+        <!-- This partial requires local variable 'chapter' -->
+        <div class="chapter" id="chapter-10">
+        <!-- chapter management -->
+        
+        <div class="chapter preface group">
+        <h3 class="title">{{ chapter.name }}</h3>
+    
+        <!-- only display byline if different from the main byline -->
+    </div>
+    </center>
+    <br>
+
+    <!--main content-->
+    <div class="userstuff module" role="article">
+        <p> {{ chapter.description|safe }} </p>
+    </div>
+    <!--/main-->
+</div>
+
+
+<div id="feedback" class="feedback container mb-5">
+    <div class="actions container d-flex justify-content-end pr-0" role="navigation">
+        <div class="dropdown">
+            <button style="margin:3px" class="dropdown-toggle btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Chapters
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for info in chapters %}
+                <a class="dropdown-item" href="{% url 'show-chapter' info.id %}"> {{ info.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <a class="btn btn-secondary" style="margin:3px" href="#">Top</a>
+    </div>
+    
+    <hr style="background-color: white;">
+
+    <h3 class="landmark heading"><a id="comments">Comments</a></h3>
+    <div>
+        {% if not story.comments.all %}
+        <div style="border-style: inset; padding:10px; margin-top: 10px;">No Comments Yet</div>
+        {% else %}
+            <div style="border-style: inset; padding:10px; margin-top: 10px;">
+                {% for comment in story.comments.all %}
+                    <div><a href="{% url 'profile' comment.name.id %}">{{ comment.name }}</a> at {{ comment.created_at }}</div>
+                    <div>{{ comment.body }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <br>
+        <form action="" method="POST" style="border-style: inset; padding:10px; margin-top: 10px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Comment!" class="btn btn-secondary">
+        </form>
+    </div>
+</div>
+
+<script>
+var story = "{{ story.id }}";
+document.getElementById("story").value = story;
+var name = "{{ user.id }}";
+document.getElementById("author").value = name;
+</script>
+
+<!-- end display content -->
+{% endblock %}
+
+

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start reading intro -->
+<div class="container my-5">
+    <div class="read-intro bg-light">
+        <div class="row">
+            <div class="cover col-*">
+                {% if story.story_image %}
+                <img class="shadow" src="{{ story.story_image.url }}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                {% else %}
+                <img class="shadow" src="{% static 'img/jiro.png' %}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                {% endif %}
+            </div>
+            <div class="info col">
+                <h2 class="head"> {{ story.name }} </h2>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Genre:</th>
+                            <td> {{ story.tag }} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Artist:</th>
+                            <td> <a href="{% url 'profile' story.author.id %}">{{ story.author }}</a> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Update:</th>
+                            <td> {{ story.updated_at }} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Likes:</th>
+                            <td><span class="font-weight-bold ml-3"> {{ story.total_likes }} </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    {{ story.description }}
+                </p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-between">
+            {% for chapter in chapters %}
+            {% if forloop.first %}
+                <a class="btn btn-primary my-3 mx-1 p-2 col-4" style="background-color: #89ba16; border-color:#89ba16;" href="{% url 'show-chapter' chapter.id %}">Start reading</a>
+            {% endif %}
+            {% endfor %}
+            {% if user in story.likes.all %}
+                <a type="button" class="btn btn-secondary my-3 mx-1 p-2 col-4" style="background-color: #89ba16; border-color:#89ba16;" href="{% url 'like-story' story.id %}">Unlike</a>
+            {% else %}
+            {% if not user.is_authenticated %}
+                <a type="button" class="btn btn-primary my-3 mx-1 p-2 col-4" style="background-color: #89ba16; border-color:#89ba16;" href="{% url 'login' %}">Like</a>
+            {% else %}
+                <a type="button" class="btn btn-primary my-3 mx-1 p-2 col-4" style="background-color: #89ba16; border-color:#89ba16;" href="{% url 'like-story' story.id %}">Like</a>
+            {% endif %}
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                {% if user.id == story.author.id %}
+                <a class="btn btn-primary my-3 mx-1 px-5" href="{% url 'update-story' story.id %}">Update</a>
+                <a class="btn btn-primary my-3 mx-1 px-5" href="{% url 'delete-story' story.id %}">Delete</a>
+                <a class="btn btn-primary my-3 mx-1 px-5" href="{% url 'add-chapter' story.id %}">Add Chapter</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+<!-- start intro lists -->
+<div class="container my-5 bg-white">
+    <div class="intro-lists">
+        <div class="head-list row bg-light">
+            <ul class="list-unstyled list-inline">
+                <li class="list-inline-item"><a data-toggle="tab" class="active" href="#ch">CHAPTER</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <!-- start ch -->
+            <div id="ch" class="tab-pane fade in active show">
+                <div class="row d-flex align-items-center">
+                    <table class="table table-striped">
+                        <tbody>
+                            {% for chapter in chapters %}
+                            <tr>
+                                <th class="text-center"><a href="{% url 'show-chapter' chapter.id %}">{{chapter.name}}</a></th>
+                                {% if user.is_authenticated %}
+                                    {% if user.id == story.author.id %}
+                                <td class="float-right">
+                                    <a class="btn btn-primary my-3 mx-1 px-5" href="{% url 'update-chapter' chapter.id %}">Update</a>
+                                    <a class="btn btn-primary my-3 mx-1 px-5" href="{% url 'delete-chapter' chapter.id %}">Delete</a>
+                                </td>
+                                {% endif %}
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end ch -->
+        </div>
+    </div>
+</div>
+    <!-- end ch -->
+
+    <div class="container my-5 p-3 bg-white" style="color:black">
+        <strong>COMMENT</strong> {{ story.comments.all.count }}
+        <div>
+        {% if not story.comments.all %}
+        <div style="border-style: inset; padding:10px; margin-top: 10px;">No Comments Yet</div>
+        </div>
+        {% else %}
+            <div style="border-style: inset; padding:10px; margin-top: 10px;">
+                {% for comment in story.comments.all %}
+                    <div><a href="#">{{ comment.name }}</a> at {{ comment.created_at }}</div>
+                    <div>{{ comment.body }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <br>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" class="btn btn-secondary">
+        </form>
+    </div>
+</div>
+
+<script>
+    var story = "{{ story.id }}";
+    document.getElementById("story").value = story;
+    var name = "{{ user.id }}";
+    document.getElementById("author").value = name;
+</script>
+
+
+{% endblock %}
+

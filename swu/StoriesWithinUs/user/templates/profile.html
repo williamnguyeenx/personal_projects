@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if profile %}
+<section>
+  <div class="container py-5 mb-0" style="color:black">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              {% if profile.profile_image %}
+              <img src="{{ profile.profile_image.url }}" alt="{% static 'media/img/default_avatar.png' %}"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              {% else %}
+              <img src="{% static 'img/default_avatar.jpeg' %}" class="rounded-circle img-fluid" style="width: 150px;">
+              {% endif %}
+              <h5 class="my-3"> {{ profile.user.username }} </h5>
+              <p class="text-muted mb-1"> {{ profile.bio }} </p>
+              {% if not profile.user.id == request.user.id %}
+              <div class="d-flex justify-content-center mb-2">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {% if profile in user.profile.follows.all %}
+                        <button style="background-color: rgb(113, 113, 113);" class="btn btn-secondary mr-2" name="follow" value="unfollow" type="submit">Following @{{ profile.user.username }}</button>
+                    {% else %}
+                        <button style="background-color: #89ba16;" class="btn btn-primary mr-2" name="follow" value="follow" type="submit">Follow @{{ profile.user.username }}</button>
+                    {% endif %}
+                </form>
+              </div>
+              {% else %}
+                <div class="d-flex justify-content-center mb-2">
+                  <a type="button" class="btn btn-primary" style="background-color: #89ba16;" href="{% url 'edit-user' %}" >Edit Profile</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="">Follows</i>
+                  <p class="mb-0">{{ profile.follows.all.count }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="">Followers</i>
+                  <p class="mb-0">{{ profile.followed_by.all.count }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="">Works</i>
+                  <p class="mb-0"> {{ total_stories }} </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <br>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="">Follows</i>
+                  <p class="mb-0">{{ profile.follows.all.count }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="">Followers</i>
+                  <p class="mb-0">{{ profile.followed_by.all.count }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="">Works</i>
+                  <p class="mb-0"> {{ total_stories }} </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body scroll">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Works by</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="mb-0">{{profile.user.username}}</p>
+                    </div>
+                </div>
+                <hr>
+                {% if stories %}
+                  {% for story in stories %}
+                  <a href="{% url 'show-story' story.id %}"><div class="row">
+                      <div class="col-sm-3">
+                          <p class="mb-0">Title:</p>
+                      </div>
+                      <div class="col-sm-9">
+                          <p class="text-muted mb-0">{{ story.name }}</p>
+                      </div>
+                      <div class="col-sm-3">
+                          <p class="mb-0">Description:</p>
+                      </div>
+                      <div class="col-sm-9">
+                          <p class="text-muted mb-0">{{ story.description }}</p>
+                      </div>
+                      <div class="col-sm-3">
+                          <p class="mb-0">Likes:</p>
+                      </div>
+                      <div class="col-sm-9">
+                          <p class="text-muted mb-0"> {{ story.total_likes }}</p>
+                      </div>
+                      <div class="col-sm-3">
+                        <p class="mb-0">Last Update:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0"> {{ story.updated_at }}</p>
+                    </div>
+                  </div></a>
+                  {% if user in story.likes.all %}
+                  <div class="m-0 p-0 mt-2 d-flex justify-content-end"><a type="button" href="{% url 'like-story' story.id %}" class="btn btn-secondary">Unlike</a></div>
+                  {% else %}
+                  <div class="m-0 p-0 mt-2 d-flex justify-content-end"><a type="button" href="{% url 'like-story' story.id %}" class="btn btn-primary" style="background-color: #89ba16; border-color:#89ba16; border-radius: 50px;">Like</a></div>
+                  {% endif %}
+                  <hr>
+                  {% endfor %}
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+{% endif %}
+
+
+
+<style>
+  div.scroll {
+    height: 800px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    padding: 20px;
+  }
+</style>
+
+{% endblock %}
+

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if searched %}
+    <div class="container my-5">
+        <h1>Search For {{searched}}</h1>
+        {% for story in stories %}
+        <div class="read-intro bg-light mt-3">
+            <div class="row">
+                <div class="cover col-*">
+                    {% if story.story_image %}
+                    <img class="shadow" src="{{ story.story_image.url }}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                    {% else %}
+                    <img class="shadow" src="{% static 'img/jiro.png' %}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                    {% endif %}
+                </div>
+                <div class="info col">
+                    <h2 class="head"> {{ story.name }} </h2>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Genre:</th>
+                                <td> {{ story.tag }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Artist:</th>
+                                <td> {{ story.author }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Update:</th>
+                                <td> {{ story.updated_at }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Likes:</th>
+                                <td><span class="font-weight-bold ml-3"> {{ story.total_likes }} </span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        {{ story.description }}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <a class="btn btn-red my-3 mx-1 px-5 col" href="#">Start reading</a>
+                <form action="{% url 'like-story' story.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" name="story_id" value="{{ story.id }}" class="btn btn-red my-3 mx-1 px-5 col">Like</button>
+                </form>
+                {% if user.is_authenticated %}
+                    {% if user.id == story.author.id %}
+                        <a class="btn btn-red my-3 mx-1 px-5 col" href="{% url 'update-story' story.id %}">Update</a>
+                        <a class="btn btn-red my-3 mx-1 px-5 col" href="{% url 'delete-story' story.id %}">Delete</a>
+                        <a class="btn btn-red my-3 mx-1 px-5 col" href="{% url 'add-chapter' story.id %}">Add Chapter</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="container my-5">
+        <h1>Search For {{searched}}</h1>
+        {% for story in story_list %}
+        <div class="read-intro bg-light mt-3">
+            <i class="far fa-bookmark fa-3x"></i>
+            <div class="row">
+                <div class="cover col-*">
+                    {% if story.story_image %}
+                    <img class="shadow" src="{{ story.story_image.url }}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                    {% else %}
+                    <img class="shadow" src="{% static 'img/jiro.png' %}" alt="" class="img-fluid" style="width: 300px; height:300px">
+                    {% endif %}
+                </div>
+                <div class="info col">
+                    <h2 class="head"> {{ story.name }} </h2>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Genre:</th>
+                                <td> {{ story.tag }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Artist:</th>
+                                <td> {{ story.author }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Update:</th>
+                                <td> {{ story.updated_at }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Likes:</th>
+                                <td><span class="font-weight-bold ml-3"> {{ story.total_likes }} </span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        {{ story.description }}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <a class="btn btn-red my-3 mx-1 px-5 col" href="#">Start reading</a>
+                <form action="{% url 'like-story' story.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" name="story_id" value="{{ story.id }}" class="btn btn-red my-3 mx-1 px-5 col">Like</button>
+                </form>
+    
+                {% if user.is_authenticated %}
+                    {% if user.id == story.author.id %}
+                        <a class="btn btn-red my-3 mx-1 px-5 col" href="{% url 'update-story' story.id %}">Update</a>
+                        <a class="btn btn-red my-3 mx-1 px-5 col" href="{% url 'delete-story' story.id %}">Delete</a>
+                        <a class="btn btn-red my-3 mx-1 px-5 col" href="{% url 'add-chapter' story.id %}">Add Chapter</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+{% endblock %}
+
+

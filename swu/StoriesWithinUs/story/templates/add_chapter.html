@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br><br><br>
+<center>
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissable fade show" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+</center>
+    <div class="container bg-light p-5" style="color:white">
+        <h2 style="color:black" class="text-center">ADD CHAPTER</h2>
+        <br>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" class="btn btn-secondary">
+        </form>
+    </div>
+
+<br><br><br>
+
+<script>
+    var story = "{{ story.id }}";
+    document.getElementById("story").value = story;
+</script>
+
+{% endblock %}

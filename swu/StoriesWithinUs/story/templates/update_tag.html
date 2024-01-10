@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Update Tag</h1>
+    <br><br>
+
+    <div class="container bg-light" style="color:white">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update" class="btn btn-secondary">
+        </form>
+    </div>
+{% endblock %}
+

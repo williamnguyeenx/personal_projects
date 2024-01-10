@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if submitted %}
+    Your Story Was Created!
+{% else %}
+<br><br><br><br>
+    <div class="container bg-light p-5 " style="color:white">
+        <h2 style="color:black">ADD STORY</h2>
+        <br>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <input type="submit" value="Submit" class="btn btn-secondary">
+        </form>
+    </div>
+{% endif %}
+
+<script>
+    var name = "{{ user.id }}";
+    document.getElementById("author").value = name;
+</script>
+    
+
+{% endblock %}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+{% load static %}
+<section>
+<link rel="stylesheet" href="{%static 'fonts/icomoon/style.css' %}">
+<link rel="stylesheet" href="{%static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap">
+</section>
+
+</head>
+<body>
+
+<div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+</div>
+
+<header class="site-navbar site-navbar-target bg-white" role="banner" style="border-style:ridge;">
+    <div class="container">
+        <div class="row align-items-center position-relative">
+            <div class="col-lg-4">
+                <nav class="site-navigation text-right ml-auto " role="navigation">
+                    <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                        <li class="active"><a href="/" class="nav-link">Home</a></li>
+                        <li><a href="{% url 'list-stories' %}" class="nav-link">Stories</a></li>
+                        <li><a href="{% url 'list-tags' %}" class="nav-link">Categories</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="site-logo"><a href="/">StoriesWithinUs</a></div>
+
+                <div class="ml-auto toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-black"><span class="icon-menu h3 text-black"></span></a></div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="site-navigation text-left mr-auto " role="navigation">
+                    <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                        {% if user.is_authenticated %}
+                        <li>
+                            <form method="POST" action="{% url 'search' %}">
+                            {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="searched">   
+                                </div>
+                            </form>
+                        </li>
+                        <!-- <li class="account" id="navbarSupportedContent">
+                            <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <span><h6>{{ request.user.username }}</h6><i class="fa fa-angle-down"></i></span>
+                            </button> 
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'add-story' %}">Write your story!</a>
+                                <a class="dropdown-item" href="{% url 'profile' request.user.id %}">My account</a>
+                                <a class="dropdown-item" href="{% url 'edit-user' %}">Settings</a>
+                                
+                            </div>
+                        </li> -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ request.user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" style="font-weight: bold;" href="{% url 'add-story' %}">Write Your Story!</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'profile' request.user.id %}">My Profile</a>
+                                <a class="dropdown-item" href="#">Saved Stories</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'edit-user' %}">Settings</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li>
+                            <form method="POST" action="{% url 'search' %}">
+                            {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="searched">   
+                                </div>
+                            </form>
+                        </li>
+                        <li><a href="/user/login_user" class="nav-link">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+<footer>
+    <div class="container mt-5 pt-5 pb-5">
+        <div class="row pt-5 pb-4 d-flex justify-content-center">
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4 mr-4">
+                <h2 class="footer-heading" style="color:white">More About Me!</h2>
+                <br>
+                <div class="row">
+                    <div class="col-2"><a href="#"><i class="fa-brands fa-linkedin fa-2x"></i></a></div>
+                    <div class="col-2"><a href="#"><i class="fa-brands fa-github fa-2x"></i></a></div>           
+                    <div class="col-2"><a href="#"><i class="fa-brands fa-instagram fa-2x"></i></a></div>
+                    <div class="col-2"><a href="#"><i class="fa-brands fa-facebook fa-2x"></i></a></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                <h2 class="footer-heading" style="color:white">Quick links</h2>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="py-1 d-block">Contact Me</a></li>
+                    <li><a href="#" class="py-1 d-block">Something</a></li>
+                    <li><a href="#" class="py-1 d-block">Something</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                <h2 class="footer-heading">Created by William Nguyen</h2>
+                <div class="tagcloud">
+                <a href="#" class="tag-cloud-link">dish</a>
+                <a href="#" class="tag-cloud-link">menu</a>
+                <a href="#" class="tag-cloud-link">food</a>
+                <a href="#" class="tag-cloud-link">sweet</a>
+                <a href="#" class="tag-cloud-link">tasty</a>
+                <a href="#" class="tag-cloud-link">delicious</a>
+                <a href="#" class="tag-cloud-link">desserts</a>
+                <a href="#" class="tag-cloud-link">drinks</a>
+            </div>
+        </div>
+    </div>
+    <p style="color:white">Developed by William Nguyen.</p>
+</footer>
+
+<section>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery.sticky.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</section>
+
+</body>
+</html>
