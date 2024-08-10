@@ -1,0 +1,15 @@
+,Name,Single Adult,Two Adults,Two Adults Two Children,Two Adults Two Childcare
+0,Housing - Rent,"$1,162","$1,391","$2,630","$2,630"
+1,Housing - Utilities,$163,$258,$310,$310
+2,Child Care,$0,$0,$844,"$2,496"
+3,Food,$715,"$1,330","$2,422","$2,045"
+4,Transportation,$878,"$1,153","$1,636","$1,636"
+5,Health Care,$182,$427,$684,$684
+6,Technology,$86,$116,$116,$116
+7,Miscellaneous,$319,$468,$864,$992
+8,Savings,$319,$468,$864,$992
+9,Tax Payments,$647,$880,"$1,962","$2,440"
+10,Tax Credits,$0,$0,($433),($433)
+11,Monthly Total,"$4,471","$6,491","$11,899","$13,908"
+12,ANNUAL TOTAL,"$53,652","$77,892","$142,788","$166,896"
+13,Hourly Wage,$26.83,$38.95,$71.39,$83.45
