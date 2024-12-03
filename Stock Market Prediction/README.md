@@ -125,9 +125,3 @@ This project uses historical stock data to predict the future movement of Relian
 - Focus on improving minority class predictions with cost-sensitive learning.
 
 ---
-
-## **License**
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
